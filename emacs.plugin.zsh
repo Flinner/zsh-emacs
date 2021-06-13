@@ -63,6 +63,13 @@ if command -v  emacsclient  &>/dev/null ; then
         "$EMACS_PLUGIN_LAUNCHER" --eval "(magit)" -nw
     }
 
+    function mframe(){
+        if [ -d "$1" ]; then
+            cd $1
+        fi
+        emacsclient --alternate-editor "" --create-frame --eval "(magit)" --no-wait
+    }
+
     # Emacs ANSI Term tracking
     if [[ -n "$INSIDE_EMACS" ]]; then
         chpwd_emacs() { print -P "\033AnSiTc %d"; }
