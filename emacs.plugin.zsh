@@ -33,39 +33,8 @@
 # - You can share opened buffered across opened frames.
 # - Configuration changes made at runtime are applied to all frames.
 
-_emacsfun()
-{
-    # get list of emacs frames.
-    frameslist=`emacsclient --alternate-editor '' --eval '(frame-list)' 2>/dev/null | egrep -o '(frame)+'`
-
-    if [ "$(echo "$frameslist" | sed -n '$=')" -ge 2 ] ;then
-        # prevent creating another X frame if there is at least one present.
-        emacsclient --alternate-editor "" "$@"
-    else
-        # Create one if there is no X window yet.
-        emacsclient --alternate-editor "" --create-frame "$@"
-    fi
-}
-
-
-# adopted from https://github.com/davidshepherd7/emacs-read-stdin/blob/master/emacs-read-stdin.sh
-# If the second argument is - then write stdin to a tempfile and open the
-# tempfile. (first argument will be `--no-wait` passed in by the plugin.zsh)
-_emacs_launcher(){
-if [ "$#" -ge "2" -a "$2" = "-" ]
-then
-    tempfile="$(mktemp --tmpdir emacs-stdin-$USERNAME.XXXXXXX 2>/dev/null \
-                || mktemp -t emacs-stdin-$USERNAME)" # support BSD mktemp
-    cat - > "$tempfile"
-    _emacsfun --no-wait $tempfile
-else
-    _emacsfun "$@"
-fi
-}
-
-
-if command -v  emacsclient  2>/dev/null ; then
-    export EMACS_PLUGIN_LAUNCHER=_emacs_launcher
+if command -v  emacsclient  &>/dev/null ; then
+    export EMACS_PLUGIN_LAUNCHER=${0:h}/emacsclient.sh
 
     # set EDITOR if not already defined.
     export EDITOR="${EDITOR:-${EMACS_PLUGIN_LAUNCHER}}"
