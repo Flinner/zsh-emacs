@@ -53,7 +53,7 @@ if command -v  emacsclient  &>/dev/null ; then
         if [ -d "$1" ]; then
             cd $1
         fi
-        "$EMACS_PLUGIN_LAUNCHER" --eval "(magit)"
+        "$EMACS_PLUGIN_LAUNCHER" --eval "(magit)" --no-wait
     }
 
     function tmagit(){
