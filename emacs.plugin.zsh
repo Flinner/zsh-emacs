@@ -49,6 +49,20 @@ if command -v  emacsclient  &>/dev/null ; then
     # create a new X frame
     alias eframe='emacsclient --alternate-editor "" --create-frame'
 
+    function magit(){
+        if [ -d "$1" ]; then
+            cd $1
+        fi
+        "$EMACS_PLUGIN_LAUNCHER" --eval "(magit)"
+    }
+
+    function tmagit(){
+        if [ -d "$1" ]; then
+            cd $1
+        fi
+        "$EMACS_PLUGIN_LAUNCHER" --eval "(magit)" -nw
+    }
+
     # Emacs ANSI Term tracking
     if [[ -n "$INSIDE_EMACS" ]]; then
         chpwd_emacs() { print -P "\033AnSiTc %d"; }
