@@ -47,7 +47,7 @@ if command -v  emacsclient  &>/dev/null ; then
     # same than M-x eval but from outside Emacs.
     alias eeval="$EMACS_PLUGIN_LAUNCHER --eval"
     # create a new X frame
-    alias eframe='emacsclient --alternate-editor "" --create-frame'
+    alias eframe='emacsclient --alternate-editor "" --create-frame --no-wait'
 
     function magit(){
         if [ -d "$1" ]; then
